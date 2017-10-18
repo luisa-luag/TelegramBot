@@ -12,7 +12,7 @@ public class TelegramBot {
 	
 	private static String token = "";
 	
-	public int last_update = 495041171;
+	public static long lastUpdate = 495041178;
 	
 	public TelegramBot() {}
 	
@@ -46,7 +46,7 @@ public class TelegramBot {
 	public JSONObject getUpdates() {
 		JSONObject json = null;
 		try {
-			json = readJsonFromUrl(createBotUrl("getUpdates")+"?offset=" + last_update + "&limit=5");
+			json = readJsonFromUrl(createBotUrl("getUpdates")+"?offset=" + lastUpdate + "&limit=5");
 		} catch (JSONException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -59,13 +59,17 @@ public class TelegramBot {
 		System.out.println(array.length());
 		for (int i = 0; i < array.length(); ++i) {
 			System.out.println((JSONObject) array.get(i));
+			Answer ans = new Answer((JSONObject) array.get(i));
+			ans.process();
 		}
 	}
-	
+		
 	public static void main(String[] args) {
 		System.out.println("Hellow Uordi");
 		TelegramBot tb = new TelegramBot();
-		JSONObject json = tb.getUpdates();
-		tb.printUpdates(json);
+		while(true) {
+			JSONObject json = tb.getUpdates();
+			tb.printUpdates(json);
+		}
 	}
 }
