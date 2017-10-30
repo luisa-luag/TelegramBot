@@ -8,7 +8,7 @@ public class Gbariation {
 	}
 	
 	private static double TYPO_CHANCE = 0.20f;
-	private static double SIDE_CHANCE = 0.70f;
+	private static double SIDE_CHANCE = 0.60f;
 	private static double SWAP_CHANCE = 0.10f;
 	private static int NROW = 3;
 	private static int NCOL = 10;
