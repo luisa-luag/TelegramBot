@@ -26,11 +26,15 @@ public class Answer {
 	}
 	
 	public void process() {
+		if (text.startsWith("/gbariate")) sendMessage(Gbariation.gbariate(text.substring(10)), false);
 		if (text.startsWith("/test")) sendMessage("testado" + text.substring(5), true);
 		if (text.startsWith("/otvio")) sendMessage("Ow, vamo no mc?", false);
+		if (text.startsWith("/mike")) sendMessage("Oi mike", false);
 		if (text.startsWith("/pipi")) forwardMessage((long) 104548269, (long) 59);
 		if (text.startsWith("/qualidade")) forwardMessage((long) 104548269, (long) 62);
 		if (text.startsWith("/dislexia")) forwardMessage((long) 104548269, (long) 151);
+		if (text.startsWith("/ali")) forwardMessage((long) 104548269, (long) 198);
+		if (text.startsWith("/ain")) forwardMessage((long) 104548269, (long) 201);
 		if (text.startsWith("/joegs")) {
 			int max = 10;
 			int randomNum = ThreadLocalRandom.current().nextInt(0, max + 1);
