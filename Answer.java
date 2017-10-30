@@ -26,6 +26,7 @@ public class Answer {
 	}
 	
 	public void process() {
+		if (text.startsWith("/gbariate")) sendMessage(Gbariation.gbariate(text.substring(10)), false);
 		if (text.startsWith("/test")) sendMessage("testado" + text.substring(5), true);
 		if (text.startsWith("/otvio")) sendMessage("Ow, vamo no mc?", false);
 		if (text.startsWith("/mike")) sendMessage("Oi mike", false);
