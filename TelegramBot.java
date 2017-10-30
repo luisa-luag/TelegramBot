@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.concurrent.TimeUnit;
 
 import org.json.*;
 
@@ -12,9 +13,12 @@ public class TelegramBot {
 	
 	private static String token = "";
 	
-	public int last_update = 495041171;
+	public static long lastUpdate = 0;
 	
-	public TelegramBot() {}
+	public TelegramBot() {
+	}
+	
+	
 	
 	private static String readAll(Reader rd) throws IOException {
 		StringBuilder sb = new StringBuilder();
@@ -46,7 +50,7 @@ public class TelegramBot {
 	public JSONObject getUpdates() {
 		JSONObject json = null;
 		try {
-			json = readJsonFromUrl(createBotUrl("getUpdates")+"?offset=" + last_update + "&limit=5");
+			json = readJsonFromUrl(createBotUrl("getUpdates")+"?offset=" + lastUpdate + "&limit=5");
 		} catch (JSONException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -56,16 +60,29 @@ public class TelegramBot {
 	
 	public void printUpdates(JSONObject updates) {
 		JSONArray array= (JSONArray) updates.get("result");
-		System.out.println(array.length());
+		if (array.length() == 0)
+			System.out.println("Waiting for updates...");
+		else
+			System.out.println("Received " + array.length() + " messages.");
 		for (int i = 0; i < array.length(); ++i) {
 			System.out.println((JSONObject) array.get(i));
+			Answer ans = new Answer((JSONObject) array.get(i));
+			ans.process();
 		}
 	}
-	
+		
 	public static void main(String[] args) {
 		System.out.println("Hellow Uordi");
 		TelegramBot tb = new TelegramBot();
-		JSONObject json = tb.getUpdates();
-		tb.printUpdates(json);
+		while(true) {
+			JSONObject json = tb.getUpdates();
+			tb.printUpdates(json);
+			try {
+				TimeUnit.SECONDS.sleep(2);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 }
